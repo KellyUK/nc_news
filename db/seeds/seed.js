@@ -4,7 +4,11 @@ const {
   topicsData,
   usersData
 } = require("../data");
-const { formatArticle } = require("../../utils/utils");
+const {
+  formatArticle,
+  createArticleRefObject,
+  formatAllComments
+} = require("../../utils/utils");
 
 exports.seed = (knex, Promise) => {
   return knex.migrate
@@ -24,7 +28,12 @@ exports.seed = (knex, Promise) => {
       return knex("articles")
         .insert(formatArticle(articlesData))
         .returning("*");
+    })
+    .then(insertedArticles => {
+      const commentlookup = createArticleRefObject(insertedArticles);
+      const formattedComments = formatAllComments(commentsData, commentlookup);
+      return knex("comments")
+        .insert(formattedComments)
+        .returning("*");
     });
 };
-//     .then();
-// })
