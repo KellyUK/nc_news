@@ -10,4 +10,11 @@ exports.fetchArticle = id => {
     .groupBy("articles.article_id");
 };
 
-exports.updateVoteCount;
+exports.updateVoteCount = (id, increment) => {
+  return connection
+    .select("articles.*")
+    .from("articles")
+    .where({ "articles.article_id": id })
+    .increment("votes", increment)
+    .returning("*");
+};

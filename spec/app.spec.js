@@ -93,7 +93,7 @@ describe("/", () => {
             .get("/api/articles/0")
             .expect(404)
             .then(({ body }) => {
-              expect(body.message).to.equal("does not exist");
+              expect(body.message).to.equal("No article found");
             });
         });
       });
@@ -104,19 +104,37 @@ describe("/", () => {
             .send({ inc_votes: 1 })
             .expect(200)
             .then(({ body }) => {
-              expect(body.article).to.contain.keys(
+              expect(body.article[0]).to.contain.keys(
                 "author",
                 "title",
                 "article_id",
                 "body",
                 "topic",
                 "created_at",
-                "votes",
-                "comment_count"
+                "votes"
               );
-              expect(body.article.votes).to.equal(3);
+              expect(body.article[0].votes).to.equal(101);
             });
         });
+        it("PATCH status 400, bad request, invalid syntax, route not found", () => {
+          return request(app)
+            .patch("/api/articles/hello")
+            .expect(400)
+            .then(({ body }) => {
+              expect(body.message).to.contain(
+                "invalid input syntax for integer"
+              );
+            });
+        });
+        it("PATCH status: 404 invalid", () => {
+          return request(app)
+            .patch("/api/articles/0")
+            .expect(404)
+            .then(({ body }) => {
+              expect(body.message).to.equal("invalid vote increment");
+            });
+        });
+        xit("PATCH status:? invalid inc_votes", () => {});
       });
     });
   });

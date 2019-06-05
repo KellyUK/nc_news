@@ -7,7 +7,7 @@ exports.sendArticle = (req, res, next) => {
       if (article.length === 0) {
         return Promise.reject({
           status: 404,
-          msg: "No article found"
+          message: "No article found"
         });
       }
       res.status(200).send({ article });
@@ -18,6 +18,15 @@ exports.sendArticle = (req, res, next) => {
 exports.patchArticleById = (req, res, next) => {
   const { article_id } = req.params;
   const increment = req.body.inc_votes;
-  updateVoteCount(article_id, increment);
-  res.status(200);
+  updateVoteCount(article_id, increment)
+    .then(article => {
+      if (article.length === 0) {
+        return Promise.reject({
+          status: 404,
+          message: "invalid vote increment"
+        });
+      }
+      res.status(200).send({ article });
+    })
+    .catch(next);
 };
