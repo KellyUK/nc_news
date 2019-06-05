@@ -38,7 +38,7 @@ describe("/", () => {
     });
     describe("/api/users", () => {
       describe("/api/users/:username", () => {
-        it("GET status: 200 reponds with a specific user when given a valid username", () => {
+        it("GET status: 200 responds with a specific user when given a valid username", () => {
           return request(app)
             .get("/api/users/lurker")
             .expect(200)
@@ -54,6 +54,67 @@ describe("/", () => {
                 avatar_url:
                   "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png"
               });
+            });
+        });
+      });
+    });
+    describe("/api/articles", () => {
+      describe("/api/articles/:article_id, GET BLOCK", () => {
+        it("GET status: 200 responds with a specific article when given a valid article_id", () => {
+          return request(app)
+            .get("/api/articles/1")
+            .expect(200)
+            .then(({ body }) => {
+              expect(body.article[0]).to.contain.keys(
+                "author",
+                "title",
+                "article_id",
+                "body",
+                "topic",
+                "created_at",
+                "votes",
+                "comment_count"
+              );
+              expect(body.article[0].comment_count).to.equal("13");
+            });
+        });
+        it("GET status: 400 Bad request, invalid syntax, route not found", () => {
+          return request(app)
+            .get("/api/articles/hello")
+            .expect(400)
+            .then(({ body }) => {
+              expect(body.message).to.contain(
+                "invalid input syntax for integer"
+              );
+            });
+        });
+        it("GET status: 404 invalid", () => {
+          return request(app)
+            .get("/api/articles/0")
+            .expect(404)
+            .then(({ body }) => {
+              expect(body.message).to.equal("does not exist");
+            });
+        });
+      });
+      describe("/api/articles/:article_id, PATCH BLOCK", () => {
+        it("PATCH status: 200 accepts an object {inc_votes: newVote} and increments votes accordingly", () => {
+          return request(app)
+            .patch("/api/articles/1")
+            .send({ inc_votes: 1 })
+            .expect(200)
+            .then(({ body }) => {
+              expect(body.article).to.contain.keys(
+                "author",
+                "title",
+                "article_id",
+                "body",
+                "topic",
+                "created_at",
+                "votes",
+                "comment_count"
+              );
+              expect(body.article.votes).to.equal(3);
             });
         });
       });
