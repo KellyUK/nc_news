@@ -55,7 +55,10 @@ exports.sendAllArticles = (req, res, next) => {
 //post***
 exports.createCommentByArticleId = (req, res, next) => {
   const { article_id } = req.params;
-  postCommentByArticleId(article_id, req.body)
+  const { username, body } = req.body;
+  // console.log(req.params, "<.......");
+  // console.log(username);
+  postCommentByArticleId({ article_id, username, body })
     .then(([newComment]) => {
       res.status(201).send({ newComment });
     })

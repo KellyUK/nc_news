@@ -1,9 +1,9 @@
 const { updateCommentVotes } = require("../models/comments");
 
-exports.patchCommentsById = (req, res, next) => {
-  const { comment_id } = req.params;
-  const increment = req.body.inc_votes;
-  updateCommentVotes(comment_id, increment)
-    .res.status(200)
-    .send({ comment });
+exports.patchCommentById = (req, res, next) => {
+  console.log("controller....>", req);
+  updateCommentVotes(req.body);
+  then(comment => {
+    res.status(200).send({ comment });
+  }).catch(next);
 };

@@ -242,14 +242,15 @@ describe("/", () => {
               });
           });
         });
-        xdescribe("/api/articles/:article_id/comments, POST BLOCK", () => {
+        describe.only("/api/articles/:article_id/comments, POST BLOCK", () => {
           it("POST status:201 accepts an object with username and body and returns the posted comment", () => {
             return request(app)
               .post("/api/articles/1/comments")
               .expect(201)
               .send({ username: "lurker", body: "my new comment" })
               .then(({ body }) => {
-                expect(body.comment).to.be("my new comment");
+                console.log(body, "body.comment");
+                expect(body.newComment.body).to.equal("my new comment");
               });
           });
         });
@@ -257,12 +258,13 @@ describe("/", () => {
     });
     describe("/api/comments", () => {
       describe("/api/comments/:comment_id PATCH BLOCK", () => {
-        it.only("PATCH status:200, accepts an object and increases the votes on the specified comment", () => {
+        it("PATCH status:200, accepts an object and increases the votes on the specified comment", () => {
           return request(app)
             .post("/api/comments/2")
             .expect(200)
+            .send({ inc_votes: 1 })
             .then(({ body }) => {
-              expect(body.comments).to.contain.keys(
+              expect(body.comments[0]).to.contain.keys(
                 "author",
                 "article_id",
                 "votes",
