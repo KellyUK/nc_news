@@ -109,12 +109,21 @@ describe("/", () => {
             expect(body.articles).to.be.ascendingBy("created_at");
           });
       });
-      it("GET status:200 filters articles by author if specified", () => {
+      // it("GET status:200 filters articles by author if specified", () => {
+      //   return request(app)
+      //     .get("/api/articles?author=rogersop")
+      //     .expect(200)
+      //     .then(({ body }) => {
+      //       //console.log(body);
+      //       expect(body.articles).to.equal("something");
+      //     });
+      // });
+      it("GET status:404 if invalid path", () => {
         return request(app)
-          .get("/api/articles?order=asc")
+          .get("/api/article")
           .expect(200)
           .then(({ body }) => {
-            expect(body.articles).to.be.ascendingBy("created_at");
+            expect(body.articles).to.equal("an error message");
           });
       });
 
