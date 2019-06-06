@@ -118,15 +118,6 @@ describe("/", () => {
       //       expect(body.articles).to.equal("something");
       //     });
       // });
-      it("GET status:404 if invalid path", () => {
-        return request(app)
-          .get("/api/article")
-          .expect(200)
-          .then(({ body }) => {
-            expect(body.articles).to.equal("an error message");
-          });
-      });
-
       describe("/api/articles/:article_id, GET BLOCK", () => {
         it("GET status: 200 responds with a specific article when given a valid article_id", () => {
           return request(app)
@@ -261,6 +252,24 @@ describe("/", () => {
                 expect(body.comment).to.be("my new comment");
               });
           });
+        });
+      });
+    });
+    describe("/api/comments", () => {
+      describe("/api/comments/:comment_id PATCH BLOCK", () => {
+        it.only("PATCH status:200, accepts an object and increases the votes on the specified comment", () => {
+          return request(app)
+            .post("api/comments/2")
+            .expect(200)
+            .then(({ body }) => {
+              expect(body.comments).to.contain.keys(
+                "author",
+                "article_id",
+                "votes",
+                "created_at",
+                "body"
+              );
+            });
         });
       });
     });

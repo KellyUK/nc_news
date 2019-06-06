@@ -47,7 +47,6 @@ exports.sendCommentsByArticleId = (req, res, next) => {
 };
 
 exports.sendAllArticles = (req, res, next) => {
-  console.log(req.query);
   fetchAllArticles(req.query).then(articles => {
     res.status(200).send({ articles });
   });

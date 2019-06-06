@@ -19,6 +19,4 @@ articlesRouter
   .get(sendCommentsByArticleId)
   .post(createCommentByArticleId);
 
-console.log("routes...");
-
 module.exports = articlesRouter;
