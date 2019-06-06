@@ -68,6 +68,40 @@ describe("/", () => {
       });
     });
     describe("/api/articles", () => {
+      it("GET status:200 responds with an array of article objects with relevant keys", () => {
+        return request(app)
+          .get("/api/articles")
+          .expect(200)
+          .then(({ body }) => {
+            expect(body.articles[0]).to.contain.keys(
+              "author",
+              "title",
+              "article_id",
+              "body",
+              "topic",
+              "created_at",
+              "votes",
+              "comment_count"
+            );
+          });
+      });
+      it("GET status:200 sorts articles by date in descending order by default", () => {
+        return request(app)
+          .get("/api/articles")
+          .expect(200)
+          .then(({ body }) => {
+            expect(body.articles).to.be.descendingBy("created_at");
+          });
+      });
+      it("GET status:200 sorts articles by any specified collumn", () => {
+        return request(app)
+          .get("/api/articles?sort_by=")
+          .expect(200)
+          .then(({ body }) => {
+            expect(body.articles).to.be.descendingBy("created_at");
+          });
+      });
+
       describe("/api/articles/:article_id, GET BLOCK", () => {
         it("GET status: 200 responds with a specific article when given a valid article_id", () => {
           return request(app)
@@ -192,14 +226,14 @@ describe("/", () => {
               });
           });
         });
-        describe("/api/articles/:article_id/comments, POST BLOCK", () => {
+        xdescribe("/api/articles/:article_id/comments, POST BLOCK", () => {
           it("POST status:201 accepts an object with username and body and returns the posted comment", () => {
             return request(app)
               .post("/api/articles/1/comments")
               .expect(201)
               .send({ username: "lurker", body: "my new comment" })
-              .then(({ body }) => {
-                expect(body).to.be("my new comment");
+              .then(res => {
+                expect(res.body.comment).to.be("my new comment");
               });
           });
         });
