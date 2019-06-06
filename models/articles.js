@@ -42,7 +42,7 @@ exports.fetchCommentsByArticleId = (
 
 ///post**
 exports.postCommentByArticleId = (id, newComment) => {
-  return connection
+  return connection("articles")
     .insert([newComment])
     .into("comments")
     .returning("*");

@@ -95,10 +95,26 @@ describe("/", () => {
       });
       it("GET status:200 sorts articles by any specified collumn", () => {
         return request(app)
-          .get("/api/articles?sort_by=")
+          .get("/api/articles?sort_by=comment_count")
           .expect(200)
           .then(({ body }) => {
-            expect(body.articles).to.be.descendingBy("created_at");
+            expect(body.articles).to.be.descendingBy("votes");
+          });
+      });
+      it("GET status:200 orders articles in ascending order if specified", () => {
+        return request(app)
+          .get("/api/articles?order=asc")
+          .expect(200)
+          .then(({ body }) => {
+            expect(body.articles).to.be.ascendingBy("created_at");
+          });
+      });
+      it("GET status:200 filters articles by author if specified", () => {
+        return request(app)
+          .get("/api/articles?order=asc")
+          .expect(200)
+          .then(({ body }) => {
+            expect(body.articles).to.be.ascendingBy("created_at");
           });
       });
 
@@ -232,8 +248,8 @@ describe("/", () => {
               .post("/api/articles/1/comments")
               .expect(201)
               .send({ username: "lurker", body: "my new comment" })
-              .then(res => {
-                expect(res.body.comment).to.be("my new comment");
+              .then(({ body }) => {
+                expect(body.comment).to.be("my new comment");
               });
           });
         });
