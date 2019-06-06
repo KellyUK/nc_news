@@ -12,6 +12,8 @@ app.use(express.json());
 
 app.use("/api", apiRouter);
 
+app.all("/*", routeNotFound);
+
 app.use((err, req, res, next) => {
   const psqlBadRequestCodes = ["22P02"];
   if (psqlBadRequestCodes.includes(err.code)) {
@@ -24,8 +26,6 @@ app.use((err, req, res, next) => {
     res.status(404).send({ message: err.message || "does not exist" });
   } else next(err);
 });
-
-app.all("/*", routeNotFound);
 
 app.use(handle500);
 

@@ -1,6 +1,7 @@
 process.env.NODE_ENV = "test";
 const { expect } = require("chai");
 const chai = require("chai");
+chai.use(require("chai-sorted"));
 const request = require("supertest");
 const app = require("../app");
 const connection = require("../db/connection");
@@ -56,6 +57,14 @@ describe("/", () => {
               });
             });
         });
+        it("GET status: 404 no user found", () => {
+          return request(app)
+            .get("/api/users/hello")
+            .expect(404)
+            .then(({ body }) => {
+              expect(body.message).to.equal("No user found");
+            });
+        });
       });
     });
     describe("/api/articles", () => {
@@ -88,7 +97,7 @@ describe("/", () => {
               );
             });
         });
-        it("GET status: 404 invalid", () => {
+        it("GET status: 404 invalid, no article found", () => {
           return request(app)
             .get("/api/articles/0")
             .expect(404)
@@ -116,25 +125,84 @@ describe("/", () => {
               expect(body.article[0].votes).to.equal(101);
             });
         });
-        it("PATCH status 400, bad request, invalid syntax, route not found", () => {
+        it("PATCH status: 400 bad request, wrong input type", () => {
           return request(app)
-            .patch("/api/articles/hello")
+            .patch("/api/articles/3")
+            .send({ inc_votes: "cats" })
             .expect(400)
             .then(({ body }) => {
-              expect(body.message).to.contain(
-                "invalid input syntax for integer"
-              );
+              expect(body.message).to.contain("invalid input");
             });
         });
-        it("PATCH status: 404 invalid", () => {
+        it("PATCH status: 400 invalid input to increment vote", () => {
           return request(app)
-            .patch("/api/articles/0")
-            .expect(404)
+            .patch("/api/articles/3")
+            .send({ inc_votes: "cat", name: "Mitch" })
+            .expect(400)
             .then(({ body }) => {
-              expect(body.message).to.equal("invalid vote increment");
+              expect(body.message).to.contain("invalid input");
             });
         });
-        xit("PATCH status:? invalid inc_votes", () => {});
+        it("PATCH status: 400 invalid input to increment vote", () => {
+          return request(app)
+            .patch("/api/articles/3")
+            .send({ inc_votes: "" })
+            .expect(400)
+            .then(({ body }) => {
+              expect(body.message).to.contain("invalid input");
+            });
+        });
+        describe("/api/articles/:article_id/comments, GET BLOCK", () => {
+          it("GET status: 200, returns an array of comments for the given article_id, accepting sort_by and order queries", () => {
+            return request(app)
+              .get("/api/articles/1/comments")
+              .expect(200)
+              .then(({ body }) => {
+                expect(body.comments[0]).to.contain.keys(
+                  "comment_id",
+                  "votes",
+                  "created_at",
+                  "author",
+                  "body"
+                );
+              });
+          });
+          it("GET status: 200, sorts by created_at, descending as a default", () => {
+            return request(app)
+              .get("/api/articles/1/comments")
+              .expect(200)
+              .then(({ body }) => {
+                expect(body.comments).to.be.descendingBy("created_at");
+              });
+          });
+          it("GET status: 200, sorts by another column if specified", () => {
+            return request(app)
+              .get("/api/articles/1/comments?sort_by=votes")
+              .expect(200)
+              .then(({ body }) => {
+                expect(body.comments).to.be.descendingBy("votes");
+              });
+          });
+          it("GET status: 200, orders by ascending if specified", () => {
+            return request(app)
+              .get("/api/articles/1/comments?sort_by=votes&order=asc")
+              .expect(200)
+              .then(({ body }) => {
+                expect(body.comments).to.be.ascendingBy("votes");
+              });
+          });
+        });
+        describe("/api/articles/:article_id/comments, POST BLOCK", () => {
+          it("POST status:201 accepts an object with username and body and returns the posted comment", () => {
+            return request(app)
+              .post("/api/articles/1/comments")
+              .expect(201)
+              .send({ username: "lurker", body: "my new comment" })
+              .then(({ body }) => {
+                expect(body).to.be("my new comment");
+              });
+          });
+        });
       });
     });
   });

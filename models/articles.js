@@ -18,3 +18,14 @@ exports.updateVoteCount = (id, increment) => {
     .increment("votes", increment)
     .returning("*");
 };
+
+exports.fetchCommentsByArticleId = (
+  id,
+  { sort_by = "created_at", order = "desc" }
+) => {
+  return connection
+    .select("comments.*")
+    .from("comments")
+    .orderBy(sort_by, order)
+    .where({ "comments.article_id": id });
+};
