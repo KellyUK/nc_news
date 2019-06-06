@@ -259,7 +259,7 @@ describe("/", () => {
       describe("/api/comments/:comment_id PATCH BLOCK", () => {
         it.only("PATCH status:200, accepts an object and increases the votes on the specified comment", () => {
           return request(app)
-            .post("api/comments/2")
+            .post("/api/comments/2")
             .expect(200)
             .then(({ body }) => {
               expect(body.comments).to.contain.keys(
