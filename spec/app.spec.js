@@ -18,6 +18,14 @@ describe("/", () => {
           expect(body.ok).to.equal(true);
         });
     });
+    it("GET status:404, returns error for invalid path", () => {
+      return request(app)
+        .get("/notApi")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).to.equal("Route Not Found");
+        });
+    });
     describe("/topics", () => {
       it("GET status: 200 responds with an array of topic objects, with slug and description properties", () => {
         return request(app)
@@ -308,6 +316,14 @@ describe("/", () => {
             .expect(400)
             .then(({ body }) => {
               expect(body.message).to.include("invalid input syntax");
+            });
+        });
+        it("DELETE status: 404 returns error for comment_id not found", () => {
+          return request(app)
+            .delete("/api/comments/99999999")
+            .expect(404)
+            .then(({ body }) => {
+              expect(body.message).to.equal("comment not found");
             });
         });
       });
