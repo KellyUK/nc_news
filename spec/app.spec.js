@@ -43,6 +43,14 @@ describe("/", () => {
             expect(body.topics[0]).to.contain.keys("slug", "description");
           });
       });
+      it("GET status: 404 returns  error for an invalid path", () => {
+        return request(app)
+          .get("/api/notValidRoute")
+          .expect(404)
+          .then(({ body }) => {
+            expect(body.msg).to.equal("Route Not Found");
+          });
+      });
     });
     describe("/api/users", () => {
       describe("/api/users/:username", () => {
@@ -274,6 +282,14 @@ describe("/", () => {
       });
     });
     describe("/api/comments", () => {
+      it("GET status:404 returns error for an invalid path", () => {
+        return request(app)
+          .get("/api/notValidPath")
+          .expect(404)
+          .then(({ body }) => {
+            expect(body.msg).to.equal("Route Not Found");
+          });
+      });
       describe("/api/comments/:comment_id PATCH BLOCK", () => {
         it("PATCH status:200, accepts an object and increases the votes on the specified comment", () => {
           return request(app)
