@@ -15,9 +15,15 @@ app.use("/api", apiRouter);
 app.all("/*", routeNotFound);
 
 app.use((err, req, res, next) => {
-  const psqlBadRequestCodes = ["22P02"];
+  const psqlBadRequestCodes = ["22P02", "23502"];
   if (psqlBadRequestCodes.includes(err.code)) {
     res.status(400).send({ message: err.message || "Bad request" });
+  } else next(err);
+});
+
+app.use((err, req, res, next) => {
+  if (err.status === 400) {
+    res.status(400).send({ message: err.message || "Bad Request" });
   } else next(err);
 });
 

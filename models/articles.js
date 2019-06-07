@@ -42,10 +42,8 @@ exports.fetchCommentsByArticleId = (
 
 ///post**
 exports.postCommentByArticleId = ({ article_id, username, body }) => {
-  console.log(article_id, username, body);
-  const author = username;
   return connection("articles")
-    .insert({ author: username, body: body, article_id: article_id })
+    .insert({ author: username, body, article_id })
     .into("comments")
     .where({ "articles.article_id": article_id })
     .returning("*");

@@ -28,14 +28,6 @@ describe("/", () => {
             expect(body.topics[0]).to.contain.keys("slug", "description");
           });
       });
-      it("GET status: 404 route not found", () => {
-        return request(app)
-          .get("/api/nottopics")
-          .expect(404)
-          .then(({ body }) => {
-            expect(body.msg).to.equal("Route Not Found");
-          });
-      });
     });
     describe("/api/users", () => {
       describe("/api/users/:username", () => {
@@ -242,15 +234,25 @@ describe("/", () => {
               });
           });
         });
-        describe.only("/api/articles/:article_id/comments, POST BLOCK", () => {
+        describe("/api/articles/:article_id/comments, POST BLOCK", () => {
           it("POST status:201 accepts an object with username and body and returns the posted comment", () => {
             return request(app)
               .post("/api/articles/1/comments")
               .expect(201)
               .send({ username: "lurker", body: "my new comment" })
               .then(({ body }) => {
-                console.log(body, "body.comment");
                 expect(body.newComment.body).to.equal("my new comment");
+              });
+          });
+          it("POST status:400 returns an error when required fields are not passed", () => {
+            return request(app)
+              .post("/api/articles/1/comments")
+              .expect(400)
+              .send({ username: "lurker" })
+              .then(({ body }) => {
+                expect(body.message).to.include(
+                  'null value in column "body" violates not-null constraint'
+                );
               });
           });
         });

@@ -29,7 +29,7 @@ exports.patchArticleById = (req, res, next) => {
       if (!article || !increment) {
         return Promise.reject({
           status: 400,
-          message: "Cannot update votes, invalid input"
+          msg: "Cannot update votes, invalid input"
         });
       }
       res.status(200).send({ article });
@@ -52,14 +52,17 @@ exports.sendAllArticles = (req, res, next) => {
   });
 };
 
-//post***
 exports.createCommentByArticleId = (req, res, next) => {
   const { article_id } = req.params;
   const { username, body } = req.body;
-  // console.log(req.params, "<.......");
-  // console.log(username);
   postCommentByArticleId({ article_id, username, body })
     .then(([newComment]) => {
+      if (!newComment) {
+        return Promise.reject({
+          status: 400,
+          message: "invalid input, new comments must include body and author"
+        });
+      }
       res.status(201).send({ newComment });
     })
     .catch(next);
