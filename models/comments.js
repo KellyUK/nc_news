@@ -1,3 +1,5 @@
+const connection = require("../db/connection");
+
 exports.updateCommentVotes = (id, increment) => {
   return connection
     .select("comments.*")

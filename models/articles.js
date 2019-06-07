@@ -40,7 +40,6 @@ exports.fetchCommentsByArticleId = (
     .where({ "comments.article_id": id });
 };
 
-///post**
 exports.postCommentByArticleId = ({ article_id, username, body }) => {
   return connection("articles")
     .insert({ author: username, body, article_id })

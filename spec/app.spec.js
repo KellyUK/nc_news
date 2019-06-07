@@ -262,20 +262,41 @@ describe("/", () => {
       describe("/api/comments/:comment_id PATCH BLOCK", () => {
         it("PATCH status:200, accepts an object and increases the votes on the specified comment", () => {
           return request(app)
-            .post("/api/comments/2")
+            .patch("/api/comments/2")
             .expect(200)
             .send({ inc_votes: 1 })
             .then(({ body }) => {
-              expect(body.comments[0]).to.contain.keys(
+              expect(body.comment[0]).to.contain.keys(
                 "author",
+                "comment_id",
                 "article_id",
                 "votes",
                 "created_at",
                 "body"
               );
+              expect(body.comment[0].votes).to.equal(15);
+            });
+        });
+        it("PATCH status:404 for a comment_id that does not exist", () => {
+          return request(app)
+            .patch("/api/comments/999999")
+            .expect(404)
+            .send({ inc_votes: 1 })
+            .then(({ body }) => {
+              expect(body.message).to.equal("No comment found");
+            });
+        });
+        it("PATCH status:400 for an invalid input", () => {
+          return request(app)
+            .patch("/api/comments/9")
+            .expect(400)
+            .send({ inc_votes: "helloo" })
+            .then(({ body }) => {
+              expect(body.message).to.contain("invalid input syntax");
             });
         });
       });
+      describe("DELETE status: ");
     });
   });
 });
