@@ -300,9 +300,14 @@ describe("/", () => {
         it("DELETE status:204 deletes a comment by comment_id", () => {
           return request(app)
             .delete("/api/comments/9")
-            .expect(204)
+            .expect(204);
+        });
+        it("DELETE status: 400 returns error for invalid  type of comment_id", () => {
+          return request(app)
+            .delete("/api/comments/hello")
+            .expect(400)
             .then(({ body }) => {
-              expect(body.message).to.equal("something");
+              expect(body.message).to.include("invalid input syntax");
             });
         });
       });

@@ -10,7 +10,6 @@ exports.updateCommentVotes = (id, increment) => {
 };
 
 exports.deleteCommentById = id => {
-  console.log("hello");
   return connection("comments")
     .where({ comment_id: id })
     .del();

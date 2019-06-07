@@ -14,24 +14,9 @@ app.use("/api", apiRouter);
 
 app.all("/*", routeNotFound);
 
-app.use((err, req, res, next) => {
-  const psqlBadRequestCodes = ["22P02", "23502"];
-  if (psqlBadRequestCodes.includes(err.code)) {
-    res.status(400).send({ message: err.message || "Bad request" });
-  } else next(err);
-});
+app.use(handleSqlErrors);
 
-app.use((err, req, res, next) => {
-  if (err.status === 400) {
-    res.status(400).send({ message: err.message || "Bad Request" });
-  } else next(err);
-});
-
-app.use((err, req, res, next) => {
-  if (err.status === 404) {
-    res.status(404).send({ message: err.message || "does not exist" });
-  } else next(err);
-});
+app.use(handleCustomErrors);
 
 app.use(handle500);
 

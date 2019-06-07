@@ -7,16 +7,20 @@ const {
   createCommentByArticleId
 } = require("../controllers/articles");
 
+const { methodNotAllowed } = require("../errors/index");
+
 articlesRouter.route("/").get(sendAllArticles);
 
 articlesRouter
   .route("/:article_id")
   .get(sendArticle)
-  .patch(patchArticleById);
+  .patch(patchArticleById)
+  .all(methodNotAllowed);
 
 articlesRouter
   .route("/:article_id/comments")
   .get(sendCommentsByArticleId)
-  .post(createCommentByArticleId);
+  .post(createCommentByArticleId)
+  .all(methodNotAllowed);
 
 module.exports = articlesRouter;
