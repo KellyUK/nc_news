@@ -10,14 +10,19 @@ exports.fetchArticle = id => {
     .groupBy("articles.article_id");
 };
 
-exports.fetchAllArticles = ({ sort_by = "created_at", order = "desc" }) => {
+exports.fetchAllArticles = ({
+  sort_by = "created_at",
+  order = "desc",
+  ...otherQuery
+}) => {
   return connection
     .select("articles.*")
     .count("comment_id AS comment_count")
     .from("articles")
     .leftJoin("comments", "comments.article_id", "=", "articles.article_id")
     .groupBy("articles.article_id")
-    .orderBy(sort_by, order);
+    .orderBy(sort_by, order)
+    .returning("*");
 };
 
 exports.updateVoteCount = (id, increment) => {

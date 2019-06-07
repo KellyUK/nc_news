@@ -132,12 +132,12 @@ describe("/", () => {
             expect(body.articles).to.be.ascendingBy("created_at");
           });
       });
-      // it("GET status:200 filters articles by author if specified", () => {
+      // it.only("GET status:200 filters articles by author if specified", () => {
       //   return request(app)
-      //     .get("/api/articles?author=rogersop")
+      //     .get("/api/articles?author=rogersop&topic=mitch")
       //     .expect(200)
       //     .then(({ body }) => {
-      //       //console.log(body);
+      //       //console.log(body.articles);
       //       expect(body.articles).to.equal("something");
       //     });
       // });

@@ -45,11 +45,13 @@ exports.sendCommentsByArticleId = (req, res, next) => {
     })
     .catch(next);
 };
-
 exports.sendAllArticles = (req, res, next) => {
-  fetchAllArticles(req.query).then(articles => {
-    res.status(200).send({ articles });
-  });
+  const { sort_by, order, ...otherQuery } = req.query;
+  fetchAllArticles({ sort_by, order, ...otherQuery })
+    .then(articles => {
+      res.status(200).send({ articles });
+    })
+    .catch(next);
 };
 
 exports.createCommentByArticleId = (req, res, next) => {
