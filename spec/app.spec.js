@@ -132,7 +132,7 @@ describe("/", () => {
             expect(body.articles).to.be.ascendingBy("created_at");
           });
       });
-      // it.only("GET status:200 filters articles by author if specified", () => {
+      // it("GET status:200 filters articles by author if specified", () => {
       //   return request(app)
       //     .get("/api/articles?author=rogersop&topic=mitch")
       //     .expect(200)
@@ -157,6 +157,7 @@ describe("/", () => {
                 "votes",
                 "comment_count"
               );
+              console.log(body);
               expect(body.article[0].comment_count).to.equal("13");
             });
         });
@@ -273,14 +274,15 @@ describe("/", () => {
               });
           });
         });
-        describe("/api/articles/:article_id/comments, POST BLOCK", () => {
+        describe.only("/api/articles/:article_id/comments, POST BLOCK", () => {
           it("POST status:201 accepts an object with username and body and returns the posted comment", () => {
             return request(app)
               .post("/api/articles/1/comments")
               .expect(201)
               .send({ username: "lurker", body: "my new comment" })
               .then(({ body }) => {
-                expect(body.newComment.body).to.equal("my new comment");
+                console.log(body);
+                expect(body.comment.body).to.equal("my new comment");
               });
           });
           it("POST status:400 returns an error when required fields are not passed", () => {

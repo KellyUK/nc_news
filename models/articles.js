@@ -15,6 +15,9 @@ exports.fetchAllArticles = ({
   order = "desc",
   ...otherQuery
 }) => {
+  //   if (otherQuery) {
+  //     console.log(otherQuery);
+  //   }
   return connection
     .select("articles.*")
     .count("comment_id AS comment_count")

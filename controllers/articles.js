@@ -58,14 +58,14 @@ exports.createCommentByArticleId = (req, res, next) => {
   const { article_id } = req.params;
   const { username, body } = req.body;
   postCommentByArticleId({ article_id, username, body })
-    .then(([newComment]) => {
-      if (!newComment) {
+    .then(([comment]) => {
+      if (!comment) {
         return Promise.reject({
           status: 400,
           message: "invalid input, new comments must include body and author"
         });
       }
-      res.status(201).send({ newComment });
+      res.status(201).send({ comment });
     })
     .catch(next);
 };
