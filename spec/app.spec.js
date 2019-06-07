@@ -296,7 +296,16 @@ describe("/", () => {
             });
         });
       });
-      describe("DELETE status: ");
+      describe("/api/comments/:comment_id DELETE BLOCK", () => {
+        it("DELETE status:204 deletes a comment by comment_id", () => {
+          return request(app)
+            .delete("/api/comments/9")
+            .expect(204)
+            .then(({ body }) => {
+              expect(body.message).to.equal("something");
+            });
+        });
+      });
     });
   });
 });
