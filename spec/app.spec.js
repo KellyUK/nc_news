@@ -80,6 +80,14 @@ describe("/", () => {
               expect(body.message).to.equal("No user found");
             });
         });
+        it("Invalid Method, status: 405 returns error for invalid method invocation", () => {
+          return request(app)
+            .put("/api/users/3")
+            .expect(405)
+            .then(({ body }) => {
+              expect(body.msg).to.equal("Method Not Allowed");
+            });
+        });
       });
     });
     describe("/api/articles", () => {
@@ -215,6 +223,14 @@ describe("/", () => {
             .expect(400)
             .then(({ body }) => {
               expect(body.message).to.contain("invalid input");
+            });
+        });
+        it("Invalid Method, status: 405 returns error for invalid method invocation", () => {
+          return request(app)
+            .put("/api/articles/3")
+            .expect(405)
+            .then(({ body }) => {
+              expect(body.msg).to.equal("Method Not Allowed");
             });
         });
         describe("/api/articles/:article_id/comments, GET BLOCK", () => {
