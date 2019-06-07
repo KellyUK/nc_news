@@ -349,6 +349,14 @@ describe("/", () => {
               expect(body.message).to.equal("comment not found");
             });
         });
+        it("Invalid Method, status: 405 returns error for invalid method invocation", () => {
+          return request(app)
+            .put("/api/comments/3")
+            .expect(405)
+            .then(({ body }) => {
+              expect(body.msg).to.equal("Method Not Allowed");
+            });
+        });
       });
     });
   });
