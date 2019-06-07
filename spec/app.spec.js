@@ -9,6 +9,13 @@ const connection = require("../db/connection");
 describe("/", () => {
   beforeEach(() => connection.seed.run());
   after(() => connection.destroy());
+  it("GET status: 404, returns an error for invalid path", () => {
+    return request(app)
+      .get("/notValidRoute")
+      .then(({ body }) => {
+        expect(body.msg).to.equal("Route Not Found");
+      });
+  });
   describe("/api", () => {
     it("GET status:200", () => {
       return request(app)
