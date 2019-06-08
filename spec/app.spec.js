@@ -160,9 +160,9 @@ describe("/", () => {
       it("GET status:404 returns an error if non-existent topic is passed in as a query", () => {
         return request(app)
           .get("/api/articles?topic=not-A-Topic")
-          .expect(200)
+          .expect(404)
           .then(({ body }) => {
-            expect(body.articles[0].author).to.equal("an error");
+            expect(body.message).to.equal("does not exist");
           });
       });
       describe("/api/articles/:article_id, GET BLOCK", () => {

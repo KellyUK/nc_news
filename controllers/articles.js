@@ -50,6 +50,12 @@ exports.sendAllArticles = (req, res, next) => {
   const { sort_by, order, ...otherQuery } = req.query;
   fetchAllArticles({ sort_by, order, ...otherQuery })
     .then(articles => {
+      if (articles.length === 0) {
+        return Promise.reject({
+          status: 404,
+          msg: "invalid input"
+        });
+      }
       res.status(200).send({ articles });
     })
     .catch(next);
