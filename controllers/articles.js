@@ -2,6 +2,7 @@ const {
   fetchArticle,
   fetchAllArticles,
   updateVoteCount,
+  noUpdate,
   fetchCommentsByArticleId,
   postCommentByArticleId
 } = require("../models/articles");
@@ -23,10 +24,10 @@ exports.sendArticle = (req, res, next) => {
 
 exports.patchArticleById = (req, res, next) => {
   const { article_id } = req.params;
-  const increment = req.body.inc_votes;
-  updateVoteCount(article_id, increment)
-    .then(article => {
-      if (!article || !increment) {
+  const { inc_votes } = req.body;
+  updateVoteCount(article_id, inc_votes)
+    .then(([article]) => {
+      if (!article) {
         return Promise.reject({
           status: 400,
           msg: "Cannot update votes, invalid input"

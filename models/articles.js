@@ -59,7 +59,7 @@ exports.fetchAllArticles = ({
   }
 };
 
-exports.updateVoteCount = (id, increment) => {
+exports.updateVoteCount = (id, { increment = 0 }) => {
   return connection
     .select("articles.*")
     .from("articles")
@@ -68,12 +68,12 @@ exports.updateVoteCount = (id, increment) => {
     .returning("*");
 };
 
-exports.updateVoteCount = (id, increment) => {
+exports.updateVoteCount = (id, inc_votes = 0) => {
   return connection
     .select("articles.*")
     .from("articles")
     .where({ "articles.article_id": id })
-    .increment("votes", increment)
+    .increment("votes", inc_votes)
     .returning("*");
 };
 

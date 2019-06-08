@@ -234,7 +234,7 @@ describe("/", () => {
             .send({ inc_votes: 1 })
             .expect(200)
             .then(({ body }) => {
-              expect(body.article[0]).to.contain.keys(
+              expect(body.article).to.contain.keys(
                 "author",
                 "title",
                 "article_id",
@@ -243,7 +243,7 @@ describe("/", () => {
                 "created_at",
                 "votes"
               );
-              expect(body.article[0].votes).to.equal(101);
+              expect(body.article.votes).to.equal(101);
             });
         });
         it("PATCH status: 400 bad request, wrong input type", () => {
@@ -264,13 +264,22 @@ describe("/", () => {
               expect(body.message).to.contain("invalid input");
             });
         });
-        it("PATCH status: 400 invalid input to increment vote", () => {
+        it("PATCH status: 200 for request with no information, returning unchanged article to client", () => {
           return request(app)
-            .patch("/api/articles/3")
-            .send({ inc_votes: "" })
-            .expect(400)
+            .patch("/api/articles/1")
+            .send({})
+            .expect(200)
             .then(({ body }) => {
-              expect(body.message).to.contain("invalid input");
+              expect(body.article).to.have.keys(
+                "article_id",
+                "title",
+                "body",
+                "votes",
+                "topic",
+                "author",
+                "created_at"
+              );
+              expect(body.article.votes).to.equal(100);
             });
         });
         it("Invalid Method, status: 405 returns error for invalid method invocation", () => {
