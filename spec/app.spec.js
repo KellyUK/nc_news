@@ -124,6 +124,14 @@ describe("/", () => {
             expect(body.articles).to.be.descendingBy("votes");
           });
       });
+      it("GET status:400 returns an error when invalid query to sort by column that does not exist", () => {
+        return request(app)
+          .get("/api/articles?sort_by=notValidColumn")
+          .expect(400)
+          .then(({ body }) => {
+            expect(body.message).to.include("does not exist");
+          });
+      });
       it("GET status:200 orders articles in ascending order if specified", () => {
         return request(app)
           .get("/api/articles?order=asc")
