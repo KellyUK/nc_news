@@ -1,51 +1,51 @@
-# nc_news
+# Northcoders News API
 
-## Available Scripts
+This is the back end of a Northcoders News project which features various endpoints that can be used to interact with and access information in several PSQL databases using [Knex.js - A SQL Query Builder for Javascript](https://knexjs.org/)
 
-Create development and test databases locally:
+## Getting Started
 
-```bash
-npm run setup-dbs
-```
+Run _npm install_ to install the project dependencies.
 
-Create a new migration file:
+## Available Endpoints
 
-```bash
-npm run migrate-make <filename>
-```
+GET /api/topics
 
-Run all migrations:
+GET /api/users/:username
 
-```bash
-npm run migrate-latest
-```
+GET /api/articles/:article_id
 
-Rollback all migrations:
+PATCH /api/articles/:article_id
 
-```bash
-npm run migrate-rollback
-```
+POST /api/articles/:article_id/comments
 
-Run tests:
+GET /api/articles/:article_id/comments
 
-```bash
-npm test
-```
+GET /api/articles
 
-Rollback, migrate -> latest, then start inserting data into the database:
+PATCH /api/comments/:comment_id
 
-```bash
-npm run seed
-```
+DELETE /api/comments/:comment_id
 
-Run the server with `nodemon`, for hot reload:
+GET /api
 
-```bash
-npm run dev
-```
+## Built With
 
-Run the server with `node`:
+- [yo - npm](https://www.npmjs.com/package/yo)
+- [Knex.js - A SQL Query Builder for Javascript](https://knexjs.org/)
+- [express - npm](https://www.npmjs.com/package/express)
+- [supertest - npm](https://www.npmjs.com/package/supertest)
+- [mocha - npm](https://www.npmjs.com/package/mocha)
+- [chai - npm](https://www.npmjs.com/package/chai)
+- [pg - npm](https://www.npmjs.com/package/pg)
 
-```bash
-npm start
-```
+## Author
+
+- **Kelly Davidson**
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+- The Northcoders Team
