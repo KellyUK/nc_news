@@ -45,6 +45,7 @@ exports.sendCommentsByArticleId = (req, res, next) => {
     })
     .catch(next);
 };
+/////
 exports.sendAllArticles = (req, res, next) => {
   const { sort_by, order, ...otherQuery } = req.query;
   fetchAllArticles({ sort_by, order, ...otherQuery })
@@ -57,7 +58,6 @@ exports.sendAllArticles = (req, res, next) => {
 exports.createCommentByArticleId = (req, res, next) => {
   const { article_id } = req.params;
   const { username, body } = req.body;
-  console.log(article_id);
   postCommentByArticleId({ article_id, username, body })
     .then(([comment]) => {
       if (!comment) {

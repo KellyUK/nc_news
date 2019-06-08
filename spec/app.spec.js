@@ -90,7 +90,7 @@ describe("/", () => {
         });
       });
     });
-    describe("/api/articles", () => {
+    describe.only("/api/articles", () => {
       it("GET status:200 responds with an array of article objects with relevant keys", () => {
         return request(app)
           .get("/api/articles")
@@ -132,15 +132,31 @@ describe("/", () => {
             expect(body.articles).to.be.ascendingBy("created_at");
           });
       });
-      // it("GET status:200 filters articles by author if specified", () => {
-      //   return request(app)
-      //     .get("/api/articles?author=rogersop&topic=mitch")
-      //     .expect(200)
-      //     .then(({ body }) => {
-      //       //console.log(body.articles);
-      //       expect(body.articles).to.equal("something");
-      //     });
-      // });
+      it("GET status:200 filters articles by author and topic if specified", () => {
+        return request(app)
+          .get("/api/articles?author=butter_bridge&topic=mitch")
+          .expect(200)
+          .then(({ body }) => {
+            expect(body.articles[0].author).to.equal("butter_bridge");
+            expect(body.articles[0].topic).to.equal("mitch");
+          });
+      });
+      it("GET status:200 filters articles by topic alone if specified", () => {
+        return request(app)
+          .get("/api/articles?topic=cats")
+          .expect(200)
+          .then(({ body }) => {
+            expect(body.articles[0].topic).to.equal("cats");
+          });
+      });
+      it("GET status:200 filters articles by author alone if specified", () => {
+        return request(app)
+          .get("/api/articles?author=icellusedkars")
+          .expect(200)
+          .then(({ body }) => {
+            expect(body.articles[0].author).to.equal("icellusedkars");
+          });
+      });
       describe("/api/articles/:article_id, GET BLOCK", () => {
         it("GET status: 200 responds with a specific article when given a valid article_id", () => {
           return request(app)

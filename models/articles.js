@@ -13,18 +13,59 @@ exports.fetchArticle = id => {
 exports.fetchAllArticles = ({
   sort_by = "created_at",
   order = "desc",
-  ...otherQuery
+  author,
+  topic
 }) => {
-  //   if (otherQuery) {
-  //     console.log(otherQuery);
-  //   }
+  console.log(author);
+  if (author && topic) {
+    return connection
+      .select("articles.*")
+      .count("comment_id AS comment_count")
+      .from("articles")
+      .where({ "articles.author": author })
+      .andWhere({ "articles.topic": topic })
+      .leftJoin("comments", "comments.article_id", "=", "articles.article_id")
+      .groupBy("articles.article_id")
+      .orderBy(sort_by, order)
+      .returning("*");
+  } else if (author) {
+    return connection
+      .select("articles.*")
+      .count("comment_id AS comment_count")
+      .from("articles")
+      .where({ "articles.author": author })
+      .leftJoin("comments", "comments.article_id", "=", "articles.article_id")
+      .groupBy("articles.article_id")
+      .orderBy(sort_by, order)
+      .returning("*");
+  } else if (topic) {
+    return connection
+      .select("articles.*")
+      .count("comment_id AS comment_count")
+      .from("articles")
+      .where({ "articles.topic": topic })
+      .leftJoin("comments", "comments.article_id", "=", "articles.article_id")
+      .groupBy("articles.article_id")
+      .orderBy(sort_by, order)
+      .returning("*");
+  } else {
+    return connection
+      .select("articles.*")
+      .count("comment_id AS comment_count")
+      .from("articles")
+      .leftJoin("comments", "comments.article_id", "=", "articles.article_id")
+      .groupBy("articles.article_id")
+      .orderBy(sort_by, order)
+      .returning("*");
+  }
+};
+
+exports.updateVoteCount = (id, increment) => {
   return connection
     .select("articles.*")
-    .count("comment_id AS comment_count")
     .from("articles")
-    .leftJoin("comments", "comments.article_id", "=", "articles.article_id")
-    .groupBy("articles.article_id")
-    .orderBy(sort_by, order)
+    .where({ "articles.article_id": id })
+    .increment("votes", increment)
     .returning("*");
 };
 
