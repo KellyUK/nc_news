@@ -28,7 +28,10 @@ Responds with array of topic objects, with the properties: `slug` & `description
 
 ```javascript
 {
-  topics: [{slug: "coding", description: "I love coding}, {slug: "coffee", description: "I love coffee}];
+  "topics": [
+    { "slug": "coding", "description": "I love coding" },
+    { "slug": "coffee", "description": "I love coffee" }
+  ]
 }
 ```
 
@@ -38,7 +41,11 @@ Responds with a user object, with the properties: `username`, `avatar_url` & `na
 
 ```javascript
 {
-  user: { username: "KellyUK", avatar_url: www.address.com, name: "Kelly" }
+  "user": {
+    "username": "KellyUK",
+    "avatar_url": "www.address.com",
+    "name": "Kelly"
+  }
 }
 ```
 
@@ -48,9 +55,16 @@ Responds with an article object, with the properties: `author`, `title`, `articl
 
 ```javascript
 {
-  article: { author:"Kelly", title: "introduction to Coding", article_id: 1,
-             body: "Some interesting facts about coding", topic: "coding",
-             created_at: time, votes: 0, comment_count: 0 }
+  "article": {
+    "author": "Kelly",
+    "title": "introduction to Coding",
+    "article_id": 1,
+    "body": "Some interesting facts about coding",
+    "topic": "coding",
+    "created_at": time,
+    "votes": 0,
+    "comment_count": 0
+  }
 }
 ```
 
@@ -78,22 +92,22 @@ Accepts queries: sort_by (default to created_at) and order (default to desc).
 
 ```javascript
 {
-  comments: [
+  "comments": [
     {
-      comment_id: 1,
-      votes: 2,
-      created_at: time,
-      author: "Kelly",
-      body: "Nice work!"
+      "comment_id": 1,
+      "votes": 2,
+      "created_at": time,
+      "author": "Kelly",
+      "body": "Nice work!"
     },
     {
-      comment_id: 1,
-      votes: 2,
-      created_at: time,
-      author: "David",
-      body: "Interesting!"
+      "comment_id": 1,
+      "votes": 2,
+      "created_at": time,
+      "author": "David",
+      "body": "Interesting!"
     }
-  ];
+  ]
 }
 ```
 
