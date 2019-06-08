@@ -59,12 +59,12 @@ describe("/", () => {
             .get("/api/users/lurker")
             .expect(200)
             .then(({ body }) => {
-              expect(body.user[0]).to.contain.keys(
+              expect(body.user).to.contain.keys(
                 "username",
                 "name",
                 "avatar_url"
               );
-              expect(body.user[0]).to.eql({
+              expect(body.user).to.eql({
                 username: "lurker",
                 name: "do_nothing",
                 avatar_url:
