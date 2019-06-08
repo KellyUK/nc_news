@@ -90,7 +90,7 @@ describe("/", () => {
         });
       });
     });
-    describe.only("/api/articles", () => {
+    describe("/api/articles", () => {
       it("GET status:200 responds with an array of article objects with relevant keys", () => {
         return request(app)
           .get("/api/articles")
@@ -179,6 +179,14 @@ describe("/", () => {
           .expect(404)
           .then(({ body }) => {
             expect(body.message).to.equal("does not exist");
+          });
+      });
+      it("GET status:405 returns an error if invalid method on route", () => {
+        return request(app)
+          .put("/api/articles")
+          .expect(405)
+          .then(({ body }) => {
+            expect(body.msg).to.equal("Method Not Allowed");
           });
       });
       describe("/api/articles/:article_id, GET BLOCK", () => {
