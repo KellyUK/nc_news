@@ -57,12 +57,18 @@ exports.sendAllArticles = (req, res, next) => {
 exports.createCommentByArticleId = (req, res, next) => {
   const { article_id } = req.params;
   const { username, body } = req.body;
+  console.log(article_id);
   postCommentByArticleId({ article_id, username, body })
     .then(([comment]) => {
       if (!comment) {
         return Promise.reject({
           status: 400,
           message: "invalid input, new comments must include body and author"
+        });
+      } else if (!article_id) {
+        return Promise.reject({
+          status: 404,
+          message: "Invalid article_id"
         });
       }
       res.status(201).send({ comment });

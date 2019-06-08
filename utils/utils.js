@@ -6,14 +6,6 @@ exports.formatArticle = articles => {
   });
 };
 
-exports.formatComment = comments => {
-  if (!comments) return [];
-  return comments.map(comment => {
-    comment.created_at = new Date(comment.created_at);
-    return comment;
-  });
-};
-
 exports.createArticleRefObject = articles => {
   const refObj = {};
   articles.forEach(article => {

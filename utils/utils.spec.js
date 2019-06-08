@@ -1,6 +1,5 @@
 const {
   formatArticle,
-  formatComment,
   createArticleRefObject,
   formatAllComments
 } = require("./utils");
@@ -71,71 +70,7 @@ describe("formatArticle()", () => {
     ]);
   });
 });
-describe("formatComment()", () => {
-  it("returns an empty array if passed no comments", () => {
-    expect(formatComment()).to.eql([]);
-  });
-  it("returns the date in correct format for seeding", () => {
-    const input = [{ created_at: 1471522072389 }];
-    const formattedComment = formatComment(input)[0];
-    expect(formattedComment.created_at).to.eql(new Date(1471522072389));
-  });
-  it("returns the date in the correct format for a single article object", () => {
-    const input = [
-      {
-        body: "Voluptas",
-        belongs_to: "The People",
-        created_by: "tickle122",
-        votes: 8,
-        created_at: 1490666572472
-      }
-    ];
-    const output = [
-      {
-        belongs_to: "The People",
-        body: "Voluptas",
-        created_at: new Date(1490666572472),
-        created_by: "tickle122",
-        votes: 8
-      }
-    ];
-    expect(formatComment(input)).to.eql(output);
-  });
-  it("returns the correct date for several objects", () => {
-    const input = [
-      {
-        body: "Voluptas",
-        belongs_to: "The People",
-        created_by: "tickle122",
-        votes: 8,
-        created_at: 1490666572472
-      },
-      {
-        body: "Voluptas",
-        belongs_to: "The People",
-        created_by: "tickle122",
-        votes: 8,
-        created_at: 1490666572472
-      }
-    ];
-    expect(formatArticle(input)).to.eql([
-      {
-        belongs_to: "The People",
-        body: "Voluptas",
-        created_at: new Date(1490666572472),
-        created_by: "tickle122",
-        votes: 8
-      },
-      {
-        belongs_to: "The People",
-        body: "Voluptas",
-        created_at: new Date(1490666572472),
-        created_by: "tickle122",
-        votes: 8
-      }
-    ]);
-  });
-});
+
 describe("createArticleRefObject()", () => {
   xit("returns an empty object if no article passed in", () => {
     expect(createArticleRefObject()).to.eql({});
