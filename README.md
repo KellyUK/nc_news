@@ -8,11 +8,21 @@ Run **npm install** to install the project dependencies.
 
 ## Available Endpoints
 
-GET /api/topics
+### GET /api/topics
 
-GET /api/users/:username
+Get all the available topics.
 
-GET /api/articles/:article_id
+**success response:**
+
+```javascript
+{
+  topics: ["E"];
+}
+```
+
+### GET /api/users/:username
+
+### GET /api/articles/:article_id
 
 PATCH /api/articles/:article_id
 
