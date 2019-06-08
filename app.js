@@ -4,11 +4,14 @@ const {
   routeNotFound,
   handleCustomErrors,
   handleSqlErrors,
+  methodNotAllowed,
   handle500
 } = require("./errors");
 const app = express();
 
 app.use(express.json());
+
+app.route("/").all(methodNotAllowed);
 
 app.use("/api", apiRouter);
 
