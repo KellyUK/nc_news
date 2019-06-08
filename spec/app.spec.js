@@ -343,14 +343,15 @@ describe("/", () => {
                 );
               });
           });
-          xit("POST status:404 returns error where invalid article_id is passsed in", () => {
+          it("POST status:404 returns error where invalid article_id is passsed in", () => {
             return request(app)
               .post("/api/articles/99999/comments")
               .expect(404)
               .send({ username: "lurker", body: "new comment" })
               .then(({ body }) => {
-                //console.log(body);
-                expect(body).to.equal("Not found");
+                expect(body.message).to.include(
+                  'update on table "comments" violates foreign key constraint'
+                );
               });
           });
         });

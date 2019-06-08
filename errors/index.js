@@ -9,7 +9,10 @@ exports.methodNotAllowed = (req, res, next) => {
 exports.handleCustomErrors = (err, req, res, next) => {
   if (err.status === 400) {
     res.status(400).send({ message: err.message || "Bad Request" });
-  } else if (err.status === 404) {
+  } else if (
+    err.status === 404 ||
+    err.detail.includes("not present in table")
+  ) {
     res.status(404).send({ message: err.message || "does not exist" });
   } else next(err);
 };
