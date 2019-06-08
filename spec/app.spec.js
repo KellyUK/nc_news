@@ -320,6 +320,14 @@ describe("/", () => {
                 expect(body.comments).to.be.ascendingBy("votes");
               });
           });
+          it("GET status: 200, orders by ascending if specified", () => {
+            return request(app)
+              .get("/api/articles/1/comments?sort_by=votes&order=asc")
+              .expect(200)
+              .then(({ body }) => {
+                expect(body.comments).to.be.ascendingBy("votes");
+              });
+          });
         });
         describe("/api/articles/:article_id/comments, POST BLOCK", () => {
           it("POST status:201 accepts an object with username/author and body and returns the posted comment", () => {
@@ -328,7 +336,6 @@ describe("/", () => {
               .expect(201)
               .send({ username: "lurker", body: "my new comment" })
               .then(({ body }) => {
-                //console.log(body);
                 expect(body.comment.body).to.equal("my new comment");
               });
           });
@@ -373,7 +380,7 @@ describe("/", () => {
             .expect(200)
             .send({ inc_votes: 1 })
             .then(({ body }) => {
-              expect(body.comment[0]).to.contain.keys(
+              expect(body.comment).to.contain.keys(
                 "author",
                 "comment_id",
                 "article_id",
@@ -381,7 +388,7 @@ describe("/", () => {
                 "created_at",
                 "body"
               );
-              expect(body.comment[0].votes).to.equal(15);
+              expect(body.comment.votes).to.equal(15);
             });
         });
         it("PATCH status:404 for a comment_id that does not exist", () => {
