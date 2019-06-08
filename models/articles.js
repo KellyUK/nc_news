@@ -16,7 +16,7 @@ exports.fetchAllArticles = ({
   author,
   topic
 }) => {
-  console.log(author);
+  console.log(topic);
   if (author && topic) {
     return connection
       .select("articles.*")

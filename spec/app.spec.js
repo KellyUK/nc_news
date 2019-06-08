@@ -157,6 +157,14 @@ describe("/", () => {
             expect(body.articles[0].author).to.equal("icellusedkars");
           });
       });
+      it("GET status:404 returns an error if non-existent topic is passed in as a query", () => {
+        return request(app)
+          .get("/api/articles?topic=not-A-Topic")
+          .expect(200)
+          .then(({ body }) => {
+            expect(body.articles[0].author).to.equal("an error");
+          });
+      });
       describe("/api/articles/:article_id, GET BLOCK", () => {
         it("GET status: 200 responds with a specific article when given a valid article_id", () => {
           return request(app)
