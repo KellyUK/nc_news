@@ -19,12 +19,12 @@ exports.seed = (knex, Promise) => {
         .insert(topicsData)
         .returning("*");
     })
-    .then(topicsRows => {
+    .then(() => {
       return knex("users")
         .insert(usersData)
         .returning("*");
     })
-    .then(usersRows => {
+    .then(() => {
       return knex("articles")
         .insert(formatArticle(articlesData))
         .returning("*");
