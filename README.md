@@ -4,7 +4,7 @@ This is the back end of a Northcoders News project which features various endpoi
 
 ## Getting Started
 
-Run _npm install_ to install the project dependencies.
+Run **npm install** to install the project dependencies.
 
 ## Available Endpoints
 
