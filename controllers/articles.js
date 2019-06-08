@@ -9,8 +9,8 @@ const {
 exports.sendArticle = (req, res, next) => {
   const { article_id } = req.params;
   fetchArticle(article_id)
-    .then(article => {
-      if (article.length === 0) {
+    .then(([article]) => {
+      if (!article) {
         return Promise.reject({
           status: 404,
           message: "No article found"
@@ -45,7 +45,7 @@ exports.sendCommentsByArticleId = (req, res, next) => {
     })
     .catch(next);
 };
-/////
+
 exports.sendAllArticles = (req, res, next) => {
   const { sort_by, order, ...otherQuery } = req.query;
   fetchAllArticles({ sort_by, order, ...otherQuery })

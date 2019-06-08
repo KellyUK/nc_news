@@ -195,7 +195,7 @@ describe("/", () => {
             .get("/api/articles/1")
             .expect(200)
             .then(({ body }) => {
-              expect(body.article[0]).to.contain.keys(
+              expect(body.article).to.contain.keys(
                 "author",
                 "title",
                 "article_id",
@@ -205,8 +205,7 @@ describe("/", () => {
                 "votes",
                 "comment_count"
               );
-              //console.log(body);
-              expect(body.article[0].comment_count).to.equal("13");
+              expect(body.article.comment_count).to.equal("13");
             });
         });
         it("GET status: 400 Bad request, invalid syntax, route not found", () => {
