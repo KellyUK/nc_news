@@ -1,0 +1,134 @@
+{
+  "GET /api": {
+    "description": "serves up a json representation of all the available endpoints of the api"
+  },
+  "GET /api/topics": {
+    "description": "serves an array of all topics",
+    "queries": [],
+    "exampleResponse": {
+      "topics": [
+        {
+          "slug": "football",
+          "description": "Footie!"
+        }
+      ]
+    }
+  },
+  "GET /api/users/username": {
+    "description": "returns a user object",
+    "exampleResponse": {
+      "user": {
+        "username": "KellyUK",
+        "avatar_url": "www.address.com",
+        "name": "Kelly"
+      }
+    }
+  },
+  "GET /api/articles/article_id": {
+    "description": "returns an article object",
+    "exampleResponse": {
+      "article": {
+        "title": "Seafood substitutions are increasing",
+        "topic": "cooking",
+        "author": "weegembump",
+        "body": "Text from the article..",
+        "created_at": 1527695953341
+      }
+    }
+  },
+  "PATCH /api/articles/article_id": {
+    "description": "returns an updated article object with ammended votes",
+    "exampleInput": { "inc_votes": 1 },
+    "exampleResponse": {
+      "article": {
+        "title": "Seafood substitutions are increasing",
+        "topic": "cooking",
+        "author": "weegembump",
+        "body": "Text from the article..",
+        "created_at": 1527695953341,
+        "votes": 1
+      }
+    }
+  },
+  "POST /api/articles/article_id": {
+    "description": "returns a comment object",
+    "exampleInput": {
+      "username": "Kelly",
+      "body": "Nice work!"
+    },
+    "exampleResponse": {
+      "comment": {
+        "comment_id": 1,
+        "created_at": 1527695953341,
+        "author": "weegembump",
+        "body": "Text from the article..",
+        "votes": 1
+      }
+    }
+  },
+  "GET /api/articles/article_id/comments": {
+    "description": "returns an array of comments for a given article_id",
+    "exampleResponse": {
+      "comments": [
+        {
+          "comment_id": 1,
+          "created_at": 1527695953341,
+          "author": "weegembump",
+          "body": "Text from the article..",
+          "votes": 1
+        },
+        {
+          "comment_id": 1,
+          "created_at": 1527695953341,
+          "author": "weegembump",
+          "body": "Text from the article..",
+          "votes": 1
+        }
+      ]
+    }
+  },
+  "GET /api/articles": {
+    "description": "returns an array of all articles",
+    "queries": ["author", "sort_by", "topic", "author"],
+    "exampleResponse": {
+      "articles": [
+        {
+          "author": "Kelly",
+          "title": "introduction to Coding",
+          "article_id": 1,
+          "body": "Some interesting facts about coding",
+          "topic": "coding",
+          "created_at": "YYYY-MM-DD'T'HH: MM: SS.SSS'Z'",
+          "votes": 1,
+          "comment_count": 0
+        },
+        {
+          "author": "Kelly",
+          "title": "introduction to Coffee",
+          "article_id": 2,
+          "body": "Some interesting facts about coffee",
+          "topic": "coffee",
+          "created_at": "YYYY-MM-DD'T'HH: MM: SS.SSS'Z'",
+          "votes": 0,
+          "comment_count": 0
+        }
+      ]
+    },
+    "PATCH /api/comments/:comments_id": {
+      "description": "returns comment object with updated votes property",
+      "exampleInput": { "inc_votes": 1 },
+      "exampleResponse": {
+        "comment": {
+          "comment_id": 1,
+          "votes": 6,
+          "created_at": "YYYY-MM-DD'T'HH: MM: SS.SSS'Z'",
+          "author": "Kelly",
+          "body": "Nice work!"
+        }
+      }
+    },
+    "DELETE /api/comments/:comment_id": {
+      "description": "deletes comment by comment_id"
+    }
+  }
+}
