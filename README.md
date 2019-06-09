@@ -16,6 +16,8 @@ This is the back end of a Northcoders News project which features various endpoi
 
 #### Author: Kelly Davidson
 
+#### Hosted on Heroku
+
 ## Getting Started
 
 Run `npm install` to install the project dependencies.
