@@ -408,6 +408,15 @@ describe("/", () => {
             expect(body.message).to.equal("No comment found");
           });
       });
+      it.only("PATCH status:404 for a comment_id that does not exist", () => {
+        return request(app)
+          .patch("/api/comments/1")
+          .expect(200)
+          .send({})
+          .then(({ body }) => {
+            expect(body.comment.votes).to.equal(16);
+          });
+      });
       it("PATCH status:400 for an invalid input", () => {
         return request(app)
           .patch("/api/comments/9")
