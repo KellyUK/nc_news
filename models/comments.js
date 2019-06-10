@@ -1,11 +1,11 @@
 const connection = require("../db/connection");
 
-exports.updateCommentVotes = (id, increment) => {
+exports.updateCommentVotes = (id, inc_votes = 0) => {
   return connection
     .select("comments.*")
     .from("comments")
     .where({ "comments.comment_id": id })
-    .increment("votes", increment)
+    .increment("votes", inc_votes)
     .returning("*");
 };
 

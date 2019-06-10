@@ -328,7 +328,7 @@ describe("/", () => {
               expect(body.comments).to.be.ascendingBy("votes");
             });
         });
-        it.only("GET status: 404, returns an error for article_id that does not exist", () => {
+        it("GET status: 404, returns an error for article_id that does not exist", () => {
           return request(app)
             .get("/api/articles/1000/comments")
             .expect(404)
