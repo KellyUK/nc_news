@@ -328,6 +328,14 @@ describe("/", () => {
               expect(body.comments).to.be.ascendingBy("votes");
             });
         });
+        it.only("GET status: 404, returns an error for article_id that does not exist", () => {
+          return request(app)
+            .get("/api/articles/1000/comments")
+            .expect(404)
+            .then(({ body }) => {
+              expect(body.message).to.equal("does not exist");
+            });
+        });
       });
       describe("/api/articles/:article_id/comments, POST BLOCK", () => {
         it("POST status:201 accepts an object with username/author and body and returns the posted comment", () => {
