@@ -18,6 +18,8 @@ This is the back end of a Northcoders News project which features various endpoi
 
 #### Hosted on Heroku
 
+https://kelly-davidson-nc-news.herokuapp.com/api/
+
 ## Getting Started
 
 Run `npm install` to install the project dependencies.

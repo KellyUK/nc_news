@@ -408,7 +408,7 @@ describe("/", () => {
             expect(body.message).to.equal("No comment found");
           });
       });
-      it.only("PATCH status:404 for a comment_id that does not exist", () => {
+      it("PATCH status:404 for a comment_id that does not exist", () => {
         return request(app)
           .patch("/api/comments/1")
           .expect(200)

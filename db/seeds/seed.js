@@ -15,14 +15,13 @@ exports.seed = (knex, Promise) => {
     .rollback()
     .then(() => knex.migrate.latest())
     .then(() => {
-      return knex("topics")
+      const topicsPromise = knex("topics")
         .insert(topicsData)
         .returning("*");
-    })
-    .then(() => {
-      return knex("users")
+      const usersPromise = knex("users")
         .insert(usersData)
         .returning("*");
+      return Promise.all([topicsPromise, usersPromise]);
     })
     .then(() => {
       return knex("articles")
