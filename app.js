@@ -3,8 +3,6 @@ const apiRouter = require("./routes/api");
 const cors = require("cors");
 const app = express();
 
-app.use(cors());
-
 const {
   routeNotFound,
   handleCustomErrors,
@@ -12,8 +10,8 @@ const {
   methodNotAllowed,
   handle500
 } = require("./errors");
-const app = express();
 
+app.use(cors());
 app.use(express.json());
 
 app.route("/").all(methodNotAllowed);
