@@ -14,16 +14,18 @@ const baseConfig = {
 const customConfigs = {
   development: {
     connection: {
-      database: "nc_news"
-      // username: "",
-      // password: "",
+      database: "nc_news",
+      host: "docker-mysql",
+      port: "",
+      user: "admin",
+      password: "admin"
     }
   },
   test: {
     connection: {
-      database: "nc_news_test"
-      // username: "",
-      // password: "",
+      database: "nc_news_test",
+      user: "admin",
+      password: "admin"
     }
   },
   production: {

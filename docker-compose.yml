@@ -1,0 +1,40 @@
+version: "3.7"
+services:
+  db:
+    image: postgres:alpine
+    ports:
+      - 5432:5432
+    environment:
+      # DATABASE_URL: postgres://admin:admin@192.168.0.22/dbname
+      - DOCKER=true
+      - NODE_ENV=development
+      - PGHOST=postgres
+      - PGPORT=5432
+      # POSTGRES_DB: dbname
+      # POSTGRES_USER: admin
+      # POSTGRES_PASSWORD: admin
+
+    # volumes:
+    #   - ./db/data/dev-data
+  app:
+    build: .
+    ports:
+      - 9090:9090
+    volumes:
+      - .:/db
+
+    working_dir: /db
+    environment:
+      # DATABASE_URL: postgres://admin:admin@192.168.0.22/dbname
+      # - DOCKER=true
+      # - NODE_ENV=development
+      # - PGHOST=postgres
+      # - PGPORT=5432
+      # - PGUSER=admin
+      # - PGPASSWORD=admin
+      command: bash -c "sleep 10 && npm run knex migrate:latest --file knexfile.js"
+    depends_on:
+      - db
+
+volumes:
+  database:
